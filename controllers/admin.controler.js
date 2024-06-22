@@ -32,6 +32,7 @@ exports.updateProducts = asyncHandler(async (req, res) => {
 })
 exports.deleteProducts = asyncHandler(async (req, res) => {
     const result = await Product.findById(req.params.id)
+
     const str = result.images.split("/")
     const img = str[str.length - 1].split(".")[0]
     await cloudinary.uploader.destroy(img)
