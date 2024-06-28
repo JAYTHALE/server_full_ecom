@@ -34,15 +34,19 @@ exports.deleteProducts = asyncHandler(async (req, res) => {
     const result = await Product.findById(req.params.id)
 
     const str = result.images.split("/")
-    const img = str[str.length - 1].split(".")[0]
+    const img = str[str.length - 1].split(".0")[0]
     await cloudinary.uploader.destroy(img)
     await Product.findByIdAndDelete(req.params.id)
     res.json({ message: "Prodcut Delete Success" })
 })
 exports.deactivateProducts = asyncHandler(async (req, res) => {
+    const { id } = req.params
+    await Product.findByIdAndUpdate(id, { active: false })
     res.json({ message: "Prodcut Deactivate Success" })
 })
 exports.activateProducts = asyncHandler(async (req, res) => {
+    const { id } = req.params
+    await Product.findByIdAndUpdate(id, { active: true })
     res.json({ message: "Prodcut Activate Success" })
 })
 exports.getProductDetails = asyncHandler(async (req, res) => {
